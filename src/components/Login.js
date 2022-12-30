@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const navigate = useNavigate();
+
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -9,7 +11,8 @@ const Login = () => {
     const handleSubmit = (e) => {
         if (username.trim() && password.trim()) {
             e.preventDefault();
-            console.log({ username, password });
+            
+            handleLogin(username, password, navigate);
             setPassword("");
             setUsername("");
         }

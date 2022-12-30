@@ -5,6 +5,12 @@ import { useParams } from "react-router-dom";
 const Profile = () => {
   const { id } = useParams();
 
+  useEffect(() => {
+    if (!localStorage.getItem("_id")) {
+        navigate("/");
+    }
+  }, [navigate]);
+
   return (
     <main className='profile'>
       <div style={{ width: "70%" }}>
