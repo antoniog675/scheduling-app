@@ -3,6 +3,7 @@ import TimezoneSelect from "react-timezone-select";
 import { useNavigate } from "react-router-dom";
 import { time } from "../utils/resource";
 import { toast } from "react-toastify";
+import { handleCreateSchedule } from "../utils/resource";
 
 const Dashboard = () => {
   const [selectedTimezone, setSelectedTimezone] = useState({});
@@ -18,7 +19,7 @@ const Dashboard = () => {
 
   const handleSaveSchedules = () => {
     if (JSON.stringify(selectedTimezone) !== "{}") {
-      console.log(schedule);
+      handleCreateSchedule(selectedTimezone, schedule, navigate);
     } else {
       toast.error("Select your timezone");
     }

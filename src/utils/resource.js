@@ -72,3 +72,11 @@ export async function handleLogin(username, password, navigate) {
     console.log(err)
   }
 }
+
+export async function handleCreateSchedule(
+  selectedTimezone,
+  schedule,
+  navigate,
+){
+  //....data
+}
