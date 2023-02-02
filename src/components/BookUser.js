@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingDetails, sendEmail } from "../utils/resource";
 
@@ -9,6 +9,7 @@ const BookUser = () => {
   const { user } = useParams();
   const [schedules, setSchedules] = useState([]);
   const [timezone, setTimezone] = useState("");
+  const [duration, setDuration] = useState("");
   const [error, setError] = useState(false);
   const [receiverEmail, setReceiverEmail] = useState("");
 
