@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const navigate = useNavigate();
 
+
 const handleSubmit = (e) => {
     e.preventDefault();
     if (username.trim() && password.trim() && email.trim()) {
@@ -12,3 +13,5 @@ const handleSubmit = (e) => {
         setEmail("");
     }
 };
+
+export default Signup

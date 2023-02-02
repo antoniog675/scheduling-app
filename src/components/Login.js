@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { handleLogin } from "../utils/resource";
 
-const navigate = useNavigate();
 
 const Login = () => {
     const [username, setUsername] = useState("");

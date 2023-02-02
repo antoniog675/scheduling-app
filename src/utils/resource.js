@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser"
 
 export const time = [
   { id: "null", t: "Select" },
@@ -16,6 +17,38 @@ export const time = [
   { id: "18", t: "18:00pm" },
   { id: "19", t: "19:00pm" },
 ];
+
+export const sendEmail = (
+  receiverEmail,
+  email,
+  fullName,
+  message,
+  duration
+) => {
+  emailjs
+      .send(
+          "schedule_app",
+          "schedule_template",
+          {
+              to_email: receiverEmail,
+              from_email: email,
+              fullName,
+              message,
+              duration,
+          },
+          "wt79rfs6CuX12R3z6"
+      )
+      .then(
+          (result) => {
+              console.log(result.text);
+              toast.success("Session booked successfully!");
+          },
+          (error) => {
+              console.log(error.text);
+              toast.error(error.text);
+          }
+      );
+};
 
 export async function handleRegister(email, username, password, navigate) {
   try {
@@ -58,7 +91,7 @@ export async function handleLogin(username, password, navigate) {
       },
     });
     const data = await request.json();
-    if(data.error_message) {
+    if (data.error_message) {
       toast.error(data.error_message);
     } else {
       // If login successful
@@ -73,10 +106,67 @@ export async function handleLogin(username, password, navigate) {
   }
 }
 
+const handleSaveSchedules = () => {
+//👇🏻 ensures the user's timezone has been selected
+    if (JSON.stringify(selectedTimezone) !== "{}") {
+        handleCreateSchedule(selectedTimezone, schedule, navigate);
+    } else {
+        toast.error("Select your timezone");
+    }
+};
+
 export async function handleCreateSchedule(
   selectedTimezone,
   schedule,
   navigate,
-){
-  //....data
+) {
+  try {
+    await fetch("http://localhost:4000/schedule/create", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: localStorage.getItem("_id"),
+        timezone: selectedTimezone,
+        schedule,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    //👇🏻 navigates to the profile page
+    navigate(`/profile/${localStorage.getItem("_id")}`);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export function fetchBookingDetails(
+  user,
+  setError,
+  setTimezone,
+  setSchedules,
+  setReceiverEmail
+) {
+  fetch(`http://localhost:4000/schedules/${user}`, {
+        method: "POST",
+        body: JSON.stringify({
+            username: user,
+        }),
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.error_message) {
+                toast.error(data.error_message);
+                setError(true);
+            } else {
+                setTimezone(data.timezone.label);
+                setSchedules(data.schedules);
+                setReceiverEmail(data.receiverEmail);
+            }
+        })
+        .catch((err) => console.error(err));
 }
