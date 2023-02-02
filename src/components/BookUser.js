@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingDetails, sendEmail } from "../utils/resource";
+import ErrorPage from "./ErrorPage";
 
 const BookUser = () => {
   const [fullName, setFullName] = useState("");
@@ -67,7 +68,7 @@ const BookUser = () => {
         />
 
         <label htmlFor='session'>
-          Select your preferred session - GMT+2 Jerusalem
+          Select your preferred session - {timezone}
         </label>
 
         <select name='duration' onChange={(e) => setDuration(e.target.value)}>

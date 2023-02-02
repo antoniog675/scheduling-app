@@ -98,22 +98,13 @@ export async function handleLogin(username, password, navigate) {
       toast.success(data.message);
       //saves email to and id for identification
       localStorage.setItem("_id", data.data._id);
-      locatlStorage.setItem("_myEmail", data.data._email);
+      localStorage.setItem("_myEmail", data.data._email);
       navigate("/dashboard")
     }
   } catch (err) {
     console.log(err)
   }
 }
-
-const handleSaveSchedules = () => {
-//👇🏻 ensures the user's timezone has been selected
-    if (JSON.stringify(selectedTimezone) !== "{}") {
-        handleCreateSchedule(selectedTimezone, schedule, navigate);
-    } else {
-        toast.error("Select your timezone");
-    }
-};
 
 export async function handleCreateSchedule(
   selectedTimezone,
